@@ -49,20 +49,34 @@ public class Board {
 	
 	void creatTile() {
 		Random random = new Random();
-		
-		for(int x = 0; x < N; x++) {
-			for(int y = 0; y < N; y++) {
-				int tileId = x + 5*y;
-				tiles[tileId] = new Tile(tileId, x, y, random.nextBoolean(), random.nextBoolean(), random.nextBoolean(), random.nextBoolean());
-				
-			}
-		}
+	
 	}
 	
 	void creatSupply() {
 		Random random = new Random();
 		
+		for(int i = 0; i < S ; i++) {
+			
+			int x = random.nextInt(N);
+			int y = random.nextInt(N);
+			int supplyTileId = x + y * N;
+			
+			supplies[i] = Supply(random.nextInt(S), x, y, supplyTileId);
+			
 		
+			for(int j = i; j >= 0; j--) {
+				if (supplies[i].getSupplyTileId() == supplies[j].getSupplyTileId()) {
+					while(supplies[i].getSupplyTileId() == supplies[j].getSupplyTileId()) {
+					 
+						x = random.nextInt(N);
+						y = random.nextInt(N);
+						supplyTileId = x + y * N;
+					
+						supplies[i] = Supply(random.nextInt(S), x, y, supplyTileId);
+					}
+				}
+			}
+		}
 	}
 	
 	void creatBoard() {
