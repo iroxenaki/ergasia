@@ -49,6 +49,142 @@ public class Board {
 	
 	void creatTile() {
 		Random random = new Random();
+		
+		for(int i = N - 1; i < (N * N) ; i += N ) {				//put right walls
+			tiles[i].setRight(true);
+		}
+		
+		for(int i = 1 ; i < N ;  i++) {							//put down walls	
+			tiles[i].setDown(true);
+		}
+		
+		for(int i = 0; i < (N * N) ; i += N ) {					//put left walls
+			tiles[i].setRight(true);
+		}
+		
+		for(int i = (N * (N-1)) ; i < (N * N) ;  i++) {			//put up walls
+			tiles[i].setDown(true);
+		}
+		
+		int i = 0;
+		while (i < W) {
+			int randTileId = random.nextInt(N * N);
+			int counter = 0;
+			
+			
+			if(tiles[randTileId - 1].getRight() == true ) {      	 //puts wall on the left if left tile has on its right
+				tiles[randTileId].setLeft(true);
+				counter++;
+				i++;
+			}
+			
+			if(tiles[randTileId - N].getUp() == true ) {			//puts northen wall if tile above it has a wall on the southern side
+				tiles[randTileId].setDown(true);
+				counter++;
+				i++;
+			}
+		
+			if(tiles[randTileId + N].getDown() == true ) {			//puts southern wall if tile below it has a wall on the northen side
+				tiles[randTileId].setUp(true);
+				counter++;
+				i++;
+			}
+			
+			if(tiles[randTileId + 1].getLeft() == true ) {			//puts wall on the right if right tile has on its left
+				tiles[randTileId].setRight(true);
+				counter++;
+				i++;
+			}
+			
+			if (counter == 0) {
+				int k = random.nextInt(8); 
+				switch (k) {
+					case 0: 
+						if (tiles[randTileId + N].fullTile() == false) {
+							tiles[randTileId].setUp(true);
+							counter++;
+							i++;
+						}
+						break;
+					
+					case 1: 
+						if (tiles[randTileId - N].fullTile() == false) {
+							tiles[randTileId].setDown(true);
+							counter++;
+							i++;
+						}
+						break;
+					
+					case 2: 
+						if (tiles[randTileId - 1].fullTile() == false) {
+							tiles[randTileId].setLeft(true);
+							counter++;
+							i++;
+						}
+						break;
+					
+					case 3: 
+						if (tiles[randTileId + 1].fullTile() == false) {
+							tiles[randTileId].setRight(true);
+							counter++;
+							i++;
+						}
+						break;
+					
+					case 4: tiles[randTileId].setUp(false);
+							break;
+					
+					case 5: tiles[randTileId].setDown(false);
+							break;
+							
+					case 6: tiles[randTileId].setLeft(false);
+							break;
+					
+					case 7: tiles[randTileId].setRight(false);
+							break;
+					}
+			}
+			
+			if (counter == 1) {
+				int l = random.nextInt(8); 
+				switch (l) {
+					case 0: 
+						if (tiles[randTileId + N].fullTile() == false && tiles[randTileId].getUp()== false) {
+							tiles[randTileId].setUp(true);
+							counter++;
+							i++;
+						}
+						break;
+							
+					case 1: 
+						if (tiles[randTileId - N].fullTile() == false && tiles[randTileId].getDown()== false) {
+							tiles[randTileId].setDown(true);
+							counter++;
+							i++;
+						}
+						break;
+						
+					case 2: 
+						if (tiles[randTileId - 1].fullTile() == false && tiles[randTileId].getLeft()== false) {
+							tiles[randTileId].setLeft(true);
+							counter++;
+							i++;
+						}
+						break;
+						
+					case 3: 
+						if (tiles[randTileId + 1].fullTile() == false && tiles[randTileId].getRight()== false) {
+							tiles[randTileId].setRight(true);
+							counter++;
+							i++;				
+						}
+						break;
+							
+					case 4: case 5: case 6: case 7: break;
+							
+				}	
+			}
+		}
 	
 	}
 	
@@ -87,17 +223,5 @@ public class Board {
 		
 		return ;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }
